@@ -33,8 +33,8 @@ A simple web tool to generate customizable WhatsApp chat widget code for your we
 
 ## Example
 
-![Screenshot](screenshot.png) <!-- Add a screenshot if available -->
-whatsappWidget.jpg
+![Screenshot](whatsappWidget.jpg) <!-- Add a screenshot if available -->
+
 
 ## Notes
 
