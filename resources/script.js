@@ -325,7 +325,7 @@ function escapeHtml(str) {
 function updatePreview(company, phoneDigits, greeting, outerMessage) {
   const root = document.getElementById('previewArea');
   root.innerHTML = `
-    <div class="whatswidget-widget-wrapper">
+    <div class="whatswidget-widget-wrapper" style="margin-bottom: -3rem">
       <div class="whatswidget-conversation" style="display:none;opacity:0;">
         <div class="whatswidget-conversation-header">
           <div class="whatswidget-conversation-title text-white">${escapeHtml(company)}</div>
