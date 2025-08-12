@@ -34,7 +34,7 @@ function buildHtmlCode(company, phoneDigits, greeting, outerMessage) {
   <div class="whatswidget-widget-wrapper">
     <div id="whatswidget-conversation" class="whatswidget-conversation" style="display:none;opacity:0;">
       <div class="whatswidget-conversation-header">
-        <div id="whatswidget-conversation-title" class="whatswidget-conversation-title text-black">${escapeHtml(company)}</div>
+        <div id="whatswidget-conversation-title" class="whatswidget-conversation-title text-white">${escapeHtml(company)}</div>
       </div>
 
       <div id="whatswidget-conversation-message" class="whatswidget-conversation-message">${escapeHtml(greeting)}</div>
@@ -217,7 +217,7 @@ const WhatsAppWidget = ({ companyName, phoneNo, greeting, outerMessage }) => {
       {isOpen && (
         <div className="whatswidget-conversation">
           <div className="whatswidget-conversation-header">
-            <div className="whatswidget-conversation-title text-black">{companyName}</div>
+            <div className="whatswidget-conversation-title text-white">{companyName}</div>
           </div>
           <div className="whatswidget-conversation-message">{greeting}</div>
           <div className="whatswidget-conversation-cta">
@@ -252,7 +252,7 @@ function buildVueCode(company, phoneDigits, greeting, outerMessage) {
   <div class="whatswidget-widget-wrapper">
     <div v-if="isOpen" class="whatswidget-conversation">
       <div class="whatswidget-conversation-header">
-        <div class="whatswidget-conversation-title text-black">{{ companyName }}</div>
+        <div class="whatswidget-conversation-title text-white">{{ companyName }}</div>
       </div>
       <div class="whatswidget-conversation-message">{{ greeting }}</div>
       <div class="whatswidget-conversation-cta">
@@ -328,7 +328,7 @@ function updatePreview(company, phoneDigits, greeting, outerMessage) {
     <div class="whatswidget-widget-wrapper">
       <div class="whatswidget-conversation" style="display:none;opacity:0;">
         <div class="whatswidget-conversation-header">
-          <div class="whatswidget-conversation-title text-black">${escapeHtml(company)}</div>
+          <div class="whatswidget-conversation-title text-white">${escapeHtml(company)}</div>
         </div>
         <div class="whatswidget-conversation-message">${escapeHtml(greeting)}</div>
         <div class="whatswidget-conversation-cta">
@@ -467,8 +467,8 @@ document.getElementById('downloadBtn').addEventListener('click', function () {
 
 
 // initial sample preview
-updatePreview('Company/Website Name', sanitizePhone('+233123456789'), 'How can we help you?', 'Need Help? Chat With Us.');
-document.getElementById('companyName').value = 'Company/Website Name';
+updatePreview('Business/Brand Name', sanitizePhone('+233123456789'), 'How can we help you?', 'Need Help? Chat With Us.');
+document.getElementById('companyName').value = 'Business/Brand Name';
 document.getElementById('phoneNumber').value = '+233 12 345 6789';
 document.getElementById('greeting').value = 'How can we help you?';
 document.getElementById('outerMessage').value = 'Need Help? Chat With Us.';
