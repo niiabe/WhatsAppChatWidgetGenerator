@@ -1,0 +1,239 @@
+body {
+  background: #f7f7f9;
+  padding: 30px;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.card {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .06);
+  border-radius: 10px;
+}
+
+.form-control {
+  font-size: .875rem;
+}
+
+pre[id^="generated-"] {
+  height: 380px;
+  overflow: auto;
+  white-space: pre-wrap;
+  background: #0f1724;
+  color: #e6ffed;
+  padding: 12px;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+}
+
+#framework-tabs .nav-link {
+  color: #6c757d;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: none;
+  background-color: transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+#framework-tabs .nav-link.active {
+  color: #000;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+#framework-tabs .nav-link:hover {
+  color: #000;
+  background-color: #f8f9fa;
+}
+
+#main-tabs {
+  margin-bottom: 1.5rem;
+}
+
+.preview-area {
+  min-height: 380px;
+  border: 1px dashed #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  background: #fff;
+}
+
+.small-muted {
+  font-size: .85rem;
+  color: #6c757d;
+}
+
+.whatswidget-widget-wrapper {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  z-index: 9999;
+}
+
+.whatswidget-conversation {
+  background-color: #e4dcd4;
+  background-image: url('https://www.oflox.com/blog/wp-content/uploads/2021/01/wpbg.png');
+  background-repeat: repeat;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
+  width: 250px;
+  height: 300px;
+  border-radius: 15px;
+  transition-duration: 0.5s;
+  margin-bottom: 80px;
+}
+
+.whatswidget-conversation-header {
+  background-color: #25D366;
+  padding: 10px 25px;
+  box-shadow: 0px 1px #00000029;
+  font-weight: 600;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.whatswidget-conversation-message {
+  line-height: 1.2em;
+  background-color: #25D366;
+  padding: 10px;
+  margin: 10px 15px;
+  border-radius: 10px;
+  color: white;
+}
+
+.whatswidget-conversation-message-outer {
+  background-color: #25D366;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.34) 0px 2.5px 10px;
+  cursor: pointer;
+  animation: nudge 2s linear infinite;
+  margin-bottom: 70px;
+  color: white;
+}
+
+.whatswidget-text-header-outer {
+  font-weight: bold;
+  font-size: 90%;
+}
+
+.whatswidget-text-message-outer {
+  font-size: 90%;
+}
+
+.whatswidget-conversation-cta {
+  border-radius: 30px;
+  width: 175px;
+  font-size: 110%;
+  padding: 10px;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #23b123;
+  color: white;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 2.5px 10px;
+  position: absolute;
+  top: 62%;
+  left: 10%;
+  transition: 1s;
+}
+
+.whatswidget-conversation-cta:hover {
+  transform: scale(1.1);
+  filter: brightness(1.3);
+}
+
+.whatswidget-cta {
+  text-decoration: none;
+  color: white;
+}
+
+.whatswidget-cta-desktop {
+  display: none;
+}
+
+.whatswidget-cta-mobile {
+  display: inherit;
+}
+
+@media (min-width: 768px) {
+  .whatswidget-cta-desktop {
+    display: inherit;
+  }
+  .whatswidget-cta-mobile {
+    display: none;
+  }
+}
+
+.whatswidget-button-wrapper {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
+
+.whatswidget-button {
+  background-color: #31d831;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  box-shadow: 2px 1px #0d630d63;
+  transition: 1s;
+  position: relative;
+}
+
+.whatswidget-icon {
+  width: 42px;
+  height: 42px;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.whatswidget-button:hover {
+  filter: brightness(115%);
+  transform: rotate(15deg) scale(1.15);
+  cursor: pointer;
+}
+
+@keyframes nudge {
+  20%,
+  100% {
+    transform: translate(0, 0);
+  }
+  0% {
+    transform: translate(0, 5px) rotate(2deg);
+  }
+  10% {
+    transform: translate(0, -5px) rotate(-2deg);
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  .col-lg-4, .col-lg-6 {
+    width: 100%;
+  }
+}
