@@ -53,7 +53,7 @@ function buildHtmlCode(company, phoneDigits, greeting, outerMessage) {
     <div class="whatswidget-button-wrapper">
       <div class="whatswidget-button" id="whatswidget-button">
         <div style="margin:0 auto;width:38.5px;">
-          <img class="whatswidget-icon" alt="WhatsappLogo" src="resources/wpwhite.png">
+          <img class="whatswidget-icon" alt="WhatsappLogo" src="https://www.oflox.com/blog/wp-content/uploads/2021/01/wpwhite.png">
         </div>
       </div>
     </div>
@@ -70,7 +70,7 @@ function buildHtmlCode(company, phoneDigits, greeting, outerMessage) {
     }
     .whatswidget-conversation {
       background-color: #e4dcd4;
-      background-image: url('resources/wpbg.png');
+      background-image: url('https://www.oflox.com/blog/wp-content/uploads/2021/01/wpbg.png');
       background-repeat: repeat;
       box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
       width: 250px;
@@ -235,7 +235,7 @@ const WhatsAppWidget = ({ companyName, phoneNo, greeting, outerMessage }) => {
       <div className="whatswidget-button-wrapper" onClick={() => setIsOpen(!isOpen)}>
         <div className="whatswidget-button">
           <div style={{ margin: '0 auto', width: '38.5px' }}>
-            <img className="whatswidget-icon" alt="WhatsappLogo" src="resources/wpwhite.png" />
+            <img className="whatswidget-icon" alt="WhatsappLogo" src="https://www.oflox.com/blog/wp-content/uploads/2021/01/wpwhite.png" />
           </div>
         </div>
       </div>
@@ -267,7 +267,7 @@ function buildVueCode(company, phoneDigits, greeting, outerMessage) {
     <div class="whatswidget-button-wrapper" @click="isOpen = !isOpen">
       <div class="whatswidget-button">
         <div style="margin:0 auto;width:38.5px;">
-          <img class="whatswidget-icon" alt="WhatsappLogo" src="resources/wpwhite.png">
+          <img class="whatswidget-icon" alt="WhatsappLogo" src="https://www.oflox.com/blog/wp-content/uploads/2021/01/wpwhite.png">
         </div>
       </div>
     </div>
@@ -322,120 +322,58 @@ function escapeHtml(str) {
 }
 
 // update preview (not by injecting the generated <script>, but by building interactive DOM)
- // update preview (not by injecting the generated <script>, but by building interactive DOM)
-  function updatePreview(company, phoneDigits, greeting, outerMessage) {
-    const root = document.getElementById('previewArea');
-    root.innerHTML = '';
-
-    // wrapper
-    const wrapper = document.createElement('div');
-    wrapper.style.position = 'relative';
-    wrapper.style.height = '160px';
-    wrapper.style.overflow = 'hidden';
-
-    // create the small bubble area (outer message)
-    const outer = document.createElement('div');
-    outer.className = 'whatswidget-conversation-message-outer preview-outer';
-    outer.style.position = 'absolute';
-    outer.style.right = '15px';
-    outer.style.bottom = '10px';
-    outer.style.width = '210px';
-    outer.style.background = '#25D366';
-    outer.style.color = 'white';
-    outer.style.padding = '8px';
-    outer.style.borderRadius = '6px';
-    outer.style.boxShadow = '0 2px 10px rgba(0,0,0,.2)';
-    outer.style.cursor = 'pointer';
-    outer.innerHTML = `<strong style="display:block">${escapeHtml(company)}</strong><div style="font-size:.9em">${escapeHtml(outerMessage)}</div>`;
-
-    // create the large chat panel (hidden by default)
-    const convo = document.createElement('div');
-    convo.className = 'preview-conversation';
-    convo.style.display = 'none';
-    convo.style.position = 'absolute';
-    convo.style.right = '15px';
-    convo.style.bottom = '60px';
-    convo.style.width = '240px';
-    convo.style.height = '240px';
-    convo.style.borderRadius = '10px';
-    convo.style.background = '#e4dcd4';
-    convo.style.boxShadow = '0 5px 30px rgba(0,0,0,.15)';
-    convo.innerHTML = `
-      <div style="background:#25D366;color:#fff;padding:10px;border-top-left-radius:10px;border-top-right-radius:10px;font-weight:600">
-        ${escapeHtml(company)}
+function updatePreview(company, phoneDigits, greeting, outerMessage) {
+  const root = document.getElementById('previewArea');
+  root.innerHTML = `
+    <div class="whatswidget-widget-wrapper">
+      <div class="whatswidget-conversation" style="display:none;opacity:0;">
+        <div class="whatswidget-conversation-header">
+          <div class="whatswidget-conversation-title text-black">${escapeHtml(company)}</div>
+        </div>
+        <div class="whatswidget-conversation-message">${escapeHtml(greeting)}</div>
+        <div class="whatswidget-conversation-cta">
+          <a target="_blank" href="https://web.whatsapp.com/send?phone=${phoneDigits}" class="whatswidget-cta whatswidget-cta-desktop">Send message</a>
+          <a target="_blank" href="https://wa.me/${phoneDigits}" class="whatswidget-cta whatswidget-cta-mobile">Send message</a>
+        </div>
       </div>
-      <div style="padding:12px;color:#fff;background:#25D366;margin:10px;border-radius:6px;">
-        ${escapeHtml(greeting)}
+      <div class="whatswidget-conversation-message-outer">
+        <span class="whatswidget-text-header-outer">${escapeHtml(company)}</span><br>
+        <div class="whatswidget-text-message-outer">${escapeHtml(outerMessage)}</div>
       </div>
-      <div style="position:absolute; left:10%; top:60%; width:75%; transform:translateY(-10%);">
-        <a href="https://wa.me/${phoneDigits}" target="_blank" style="display:block;text-align:center;background:#23b123;color:#fff;padding:10px;border-radius:25px;text-decoration:none;font-weight:700">Send message</a>
+      <div class="whatswidget-button-wrapper">
+        <div class="whatswidget-button" id="whatswidget-button">
+          <div style="margin:0 auto;width:38.5px;">
+            <img class="whatswidget-icon" alt="WhatsappLogo" src="https://www.oflox.com/blog/wp-content/uploads/2021/01/wpwhite.png">
+          </div>
+        </div>
       </div>
-    `;
+    </div>
+  `;
 
-    // create floating button
-    const btn = document.createElement('div');
-    btn.className = 'preview-btn';
-    btn.style.position = 'absolute';
-    btn.style.right = '15px';
-    btn.style.bottom = '15px';
-    btn.style.width = '60px';
-    btn.style.height = '60px';
-    btn.style.borderRadius = '50%';
-    btn.style.background = '#31d831';
-    btn.style.display = 'flex';
-    btn.style.alignItems = 'center';
-    btn.style.justifyContent = 'center';
-    btn.style.boxShadow = '0 6px 18px rgba(0,0,0,0.15)';
-    btn.style.cursor = 'pointer';
+  const button = root.querySelector(".whatswidget-button");
+  const conversation = root.querySelector(".whatswidget-conversation");
+  const convoOuter = root.querySelector(".whatswidget-conversation-message-outer");
+  let chatOpen = false;
 
-    const img = document.createElement('img');
-    img.src = 'resources/wpwhite.png';
-    img.alt = 'W';
-    img.style.width = '36px';
-    img.style.height = '36px';
-    btn.appendChild(img);
-
-    // toggle logic
-    btn.addEventListener('click', () => {
-      if (convo.style.display === 'none') {
-        convo.style.display = 'block';
-        outer.style.display = 'none';
-      } else {
-        convo.style.display = 'none';
-        outer.style.display = 'block';
-      }
-    });
-    outer.addEventListener('click', () => {
-      convo.style.display = 'block';
-      outer.style.display = 'none';
-    });
-
-    wrapper.appendChild(convo);
-    wrapper.appendChild(outer);
-    wrapper.appendChild(btn);
-    root.appendChild(wrapper);
+  function openChat() {
+    if (!chatOpen) {
+      conversation.style.display = "block";
+      conversation.style.opacity = 1;
+      convoOuter.style.display = "none";
+      chatOpen = true;
+    } else {
+      conversation.style.opacity = 0;
+      conversation.style.display = "none";
+      chatOpen = false;
+    }
   }
 
-  // main
-  document.getElementById('widgetForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const company = document.getElementById('companyName').value.trim() || 'My Company';
-    const rawPhone = document.getElementById('phoneNumber').value.trim() || '';
-    const greeting = document.getElementById('greeting').value.trim() || 'How can we help you?';
-    const outerMessage = document.getElementById('outerMessage').value.trim() || 'Need Help? Chat With Us.';
-
-    const phoneDigits = sanitizePhone(rawPhone);
-    if (!phoneDigits) {
-      alert('Please enter a valid phone number with country code.');
-      return;
+  root.addEventListener('click', (e) => {
+    if (e.target.closest('.whatswidget-button') || e.target.closest('.whatswidget-conversation-message-outer')) {
+      openChat();
     }
-
-    const code = buildWidgetCode(company, phoneDigits, greeting, outerMessage);
-    document.getElementById('generated').textContent = code;
-
-    // update preview
-    updatePreview(company, phoneDigits, greeting, outerMessage);
   });
+}
 
 // main
 document.getElementById('widgetForm').addEventListener('submit', function (e) {
