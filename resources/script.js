@@ -338,7 +338,7 @@ function escapeHtml(str) {
     outer.className = 'whatswidget-conversation-message-outer preview-outer';
     outer.style.position = 'absolute';
     outer.style.right = '15px';
-    outer.style.bottom = '60px';
+    outer.style.bottom = '10px';
     outer.style.width = '210px';
     outer.style.background = '#25D366';
     outer.style.color = 'white';
