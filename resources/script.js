@@ -312,10 +312,10 @@ export default {
 function escapeHtml(str) {
   if (!str) return '';
   var map = {
-    '&': '&',
-    '<': '<',
-    '>': '>',
-    '"': '"',
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
     "'": '&#039;'
   };
   return str.replace(/[&<>"']/g, function(m) { return map[m]; });
