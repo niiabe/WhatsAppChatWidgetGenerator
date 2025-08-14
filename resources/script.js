@@ -308,6 +308,43 @@ export default {
 `;
 }
 
+function buildBlazorCode(company, phoneDigits, greeting, outerMessage) {
+  return `<div class="whatswidget-widget-wrapper">
+    @if (isOpen)
+    {
+        <div class="whatswidget-conversation">
+            <div class="whatswidget-conversation-header">
+                <div class="whatswidget-conversation-title text-white">${escapeHtml(company)}</div>
+            </div>
+            <div class="whatswidget-conversation-message">${escapeHtml(greeting)}</div>
+            <div class="whatswidget-conversation-cta">
+                <a href="https://web.whatsapp.com/send?phone=${phoneDigits}" target="_blank" rel="noopener noreferrer" class="whatswidget-cta whatswidget-cta-desktop">Send message</a>
+                <a href="https://wa.me/${phoneDigits}" target="_blank" rel="noopener noreferrer" class="whatswidget-cta whatswidget-cta-mobile">Send message</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="whatswidget-conversation-message-outer" @onclick="() => isOpen = true">
+            <span class="whatswidget-text-header-outer">${escapeHtml(company)}</span><br />
+            <div class="whatswidget-text-message-outer">${escapeHtml(outerMessage)}</div>
+        </div>
+    }
+    <div class="whatswidget-button-wrapper" @onclick="() => isOpen = !isOpen">
+        <div class="whatswidget-button">
+            <div style="margin:0 auto;width:38.5px;">
+                <img class="whatswidget-icon" alt="WhatsappLogo" src="https://www.oflox.com/blog/wp-content/uploads/2021/01/wpwhite.png" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool isOpen = false;
+}
+`;
+}
+
 // small helper to avoid raw HTML injection into generated preview text
 function escapeHtml(str) {
   if (!str) return '';
@@ -410,6 +447,10 @@ document.getElementById('widgetForm').addEventListener('submit', function (e) {
       code = buildReactCode(company, phoneDigits, greeting, outerMessage);
       language = 'jsx';
       break;
+    case 'blazor':
+        code = buildBlazorCode(company, phoneDigits, greeting, outerMessage);
+        language = 'razor';
+        break;
     default:
       code = buildHtmlCode(company, phoneDigits, greeting, outerMessage);
       language = 'html';
