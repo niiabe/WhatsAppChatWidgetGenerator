@@ -10,7 +10,7 @@ A simple web tool to generate customizable WhatsApp chat widget code for your we
 
 - **Live Preview:** Instantly see your widget as you customize it.
 - **Customizable:** Set your company/website name, WhatsApp number, greeting, and outer message.
-- **Framework Support:** Generate code for HTML, React, Vue, Next.js, and Vite.
+- **Framework Support:** Generate code for HTML, React, Vue, Next.js, Vite, and Blazor.
 - **Syntax Highlighting:** Code previews are highlighted for better readability.
 - **Copy or Download:** Easily copy the generated code or download a ready-to-use HTML file.
 - **Responsive Design:** Uses Bootstrap 5 for a clean, responsive layout.
