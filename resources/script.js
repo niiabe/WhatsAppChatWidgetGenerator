@@ -49,7 +49,7 @@ const widgetCss = `
   margin-bottom: 80px;
 }
 .whatswidget-conversation-header {
-  background-color: #25D366;
+  background-color: var(--whatswidget-brand-color, #25D366);
   padding: 10px 25px;
   box-shadow: 0px 1px #00000029;
   font-weight: 600;
@@ -58,14 +58,14 @@ const widgetCss = `
 }
 .whatswidget-conversation-message {
   line-height: 1.2em;
-  background-color: #25D366;
+  background-color: var(--whatswidget-brand-color, #25D366);
   padding: 10px;
   margin: 10px 15px;
   border-radius: 10px;
   color: white;
 }
 .whatswidget-conversation-message-outer {
-  background-color: #25D366;
+  background-color: var(--whatswidget-brand-color, #25D366);
   padding: 10px;
   margin: 10px 0;
   border-radius: 10px;
@@ -89,7 +89,7 @@ const widgetCss = `
   padding: 10px;
   margin: 0 auto;
   text-align: center;
-  background-color: #23b123;
+  background-color: var(--whatswidget-brand-color, #25D366);
   color: white;
   font-weight: bold;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 2.5px 10px;
@@ -100,7 +100,7 @@ const widgetCss = `
 }
 .whatswidget-conversation-cta:hover {
   transform: scale(1.1);
-  filter: brightness(1.3);
+  filter: brightness(1.1);
 }
 .whatswidget-cta {
   text-decoration: none;
@@ -118,7 +118,7 @@ const widgetCss = `
   right: 15px;
 }
 .whatswidget-button {
-  background-color: #31d831;
+  background-color: var(--whatswidget-brand-color, #25D366);
   border-radius: 100%;
   width: 60px;
   height: 60px;
@@ -145,10 +145,10 @@ const widgetCss = `
 }
 `;
 
-function buildHtmlCode(company, phoneDigits, greeting, outerMessage) {
+function buildHtmlCode(company, phoneDigits, greeting, outerMessage, brandColor) {
   return `<!-- WhatsApp Widget (generated) -->
 <div id="whatswidget-pre-wrapper">
-  <div class="whatswidget-widget-wrapper">
+  <div class="whatswidget-widget-wrapper" style="--whatswidget-brand-color: ${brandColor};">
     <div id="whatswidget-conversation" class="whatswidget-conversation" style="display:none;opacity:0;">
       <div class="whatswidget-conversation-header">
         <div id="whatswidget-conversation-title" class="whatswidget-conversation-title text-white">${escapeHtml(company)}</div>
@@ -208,7 +208,7 @@ function buildHtmlCode(company, phoneDigits, greeting, outerMessage) {
 <!-- End WhatsApp Widget -->`;
 }
 
-function buildReactCode(company, phoneDigits, greeting, outerMessage) {
+function buildReactCode(company, phoneDigits, greeting, outerMessage, brandColor) {
   return `// 1. Download the widget package.
 // 2. Place the 'resources' folder in your project's public/assets directory.
 // 3. Adjust the image and CSS paths in this component if necessary.
@@ -217,7 +217,7 @@ function buildReactCode(company, phoneDigits, greeting, outerMessage) {
 import React, { useState } from 'react';
 import './resources/whatsapp-widget.css';
 
-const WhatsAppWidget = ({ companyName, phoneNo, greeting, outerMessage }) => {
+const WhatsAppWidget = ({ companyName, phoneNo, greeting, outerMessage, brandColor }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Use props or default values
@@ -225,9 +225,14 @@ const WhatsAppWidget = ({ companyName, phoneNo, greeting, outerMessage }) => {
   const finalPhoneNo = phoneNo || "${phoneDigits}";
   const finalGreeting = greeting || "${escapeHtml(greeting)}";
   const finalOuterMessage = outerMessage || "${escapeHtml(outerMessage)}";
+  const finalBrandColor = brandColor || "${brandColor}";
+
+  const widgetStyle = {
+    '--whatswidget-brand-color': finalBrandColor,
+  };
 
   return (
-    <div className="whatswidget-widget-wrapper">
+    <div className="whatswidget-widget-wrapper" style={widgetStyle}>
       {isOpen && (
         <div className="whatswidget-conversation">
           <div className="whatswidget-conversation-header">
@@ -266,9 +271,9 @@ ${widgetCss}
 `;
 }
 
-function buildVueCode(company, phoneDigits, greeting, outerMessage) {
+function buildVueCode(company, phoneDigits, greeting, outerMessage, brandColor) {
   return `<template>
-  <div class="whatswidget-widget-wrapper">
+  <div class="whatswidget-widget-wrapper" :style="widgetStyle">
     <div v-if="isOpen" class="whatswidget-conversation">
       <div class="whatswidget-conversation-header">
         <div class="whatswidget-conversation-title text-white">{{ finalCompanyName }}</div>
@@ -312,6 +317,10 @@ export default {
       type: String,
       default: '${escapeHtml(outerMessage)}',
     },
+    brandColor: {
+      type: String,
+      default: '${brandColor}',
+    },
   },
   data() {
     return {
@@ -322,6 +331,13 @@ export default {
       finalOuterMessage: this.outerMessage,
     };
   },
+  computed: {
+    widgetStyle() {
+      return {
+        '--whatswidget-brand-color': this.brandColor,
+      };
+    },
+  },
 };
 <\/script>
 
@@ -331,7 +347,7 @@ ${widgetCss}
 `;
 }
 
-function buildBlazorCode(company, phoneDigits, greeting, outerMessage) {
+function buildBlazorCode(company, phoneDigits, greeting, outerMessage, brandColor) {
   return `
 @*
 1. Download the widget package.
@@ -340,7 +356,7 @@ function buildBlazorCode(company, phoneDigits, greeting, outerMessage) {
 4. Add the component to your page, e.g., <WhatsAppWidget />
 *@
 
-<div class="whatswidget-widget-wrapper">
+<div class="whatswidget-widget-wrapper" style="--whatswidget-brand-color: @BrandColor;">
     @if (isOpen)
     {
         <div class="whatswidget-conversation">
@@ -384,6 +400,9 @@ function buildBlazorCode(company, phoneDigits, greeting, outerMessage) {
 
     [Parameter]
     public string OuterMessage { get; set; } = "${escapeHtml(outerMessage)}";
+
+    [Parameter]
+    public string BrandColor { get; set; } = "${brandColor}";
 }
 
 @*
@@ -393,7 +412,7 @@ ${widgetCss}
 `;
 }
 
-function buildSvelteCode(company, phoneDigits, greeting, outerMessage) {
+function buildSvelteCode(company, phoneDigits, greeting, outerMessage, brandColor) {
   return `<!--
 1. Save this code as a .svelte file (e.g., WhatsAppWidget.svelte).
 2. Place the 'resources' folder in your project's 'static' or 'public' directory.
@@ -406,6 +425,7 @@ function buildSvelteCode(company, phoneDigits, greeting, outerMessage) {
   export let phoneNo = '${phoneDigits}';
   export let greeting = '${escapeHtml(greeting)}';
   export let outerMessage = '${escapeHtml(outerMessage)}';
+  export let brandColor = '${brandColor}';
 
   let isOpen = false;
 
@@ -414,7 +434,7 @@ function buildSvelteCode(company, phoneDigits, greeting, outerMessage) {
   }
 </script>
 
-<div class="whatswidget-widget-wrapper">
+<div class="whatswidget-widget-wrapper" style="--whatswidget-brand-color: {brandColor};">
   {#if isOpen}
     <div class="whatswidget-conversation">
       <div class="whatswidget-conversation-header">
@@ -450,7 +470,7 @@ function buildSvelteCode(company, phoneDigits, greeting, outerMessage) {
 `;
 }
 
-function buildAngularCode(company, phoneDigits, greeting, outerMessage) {
+function buildAngularCode(company, phoneDigits, greeting, outerMessage, brandColor) {
   const tsCode = `/*
   Instructions:
   1. In your Angular project, create a new component: \`ng generate component whatsapp-widget --standalone\`
@@ -460,7 +480,7 @@ function buildAngularCode(company, phoneDigits, greeting, outerMessage) {
 */
 
 // ======== whatsapp-widget.component.ts ========
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -475,6 +495,11 @@ export class WhatsAppWidgetComponent {
   @Input() phoneNo: string = '${phoneDigits}';
   @Input() greeting: string = '${escapeHtml(greeting)}';
   @Input() outerMessage: string = '${escapeHtml(outerMessage)}';
+  @Input() brandColor: string = '${brandColor}';
+
+  @HostBinding('style.--whatswidget-brand-color') get brandColorStyle() {
+    return this.brandColor;
+  }
 
   isOpen = false;
 
@@ -533,10 +558,10 @@ function escapeHtml(str) {
 }
 
 // update preview (not by injecting the generated <script>, but by building interactive DOM)
-function updatePreview(company, phoneDigits, greeting, outerMessage) {
+function updatePreview(company, phoneDigits, greeting, outerMessage, brandColor) {
   const root = document.getElementById('previewArea');
   root.innerHTML = `
-    <div class="whatswidget-widget-wrapper" style="margin-bottom: -3rem">
+    <div class="whatswidget-widget-wrapper" style="margin-bottom: -3rem; --whatswidget-brand-color: ${brandColor};">
       <div class="whatswidget-conversation" style="display:none;opacity:0;">
         <div class="whatswidget-conversation-header">
           <div class="whatswidget-conversation-title text-white">${escapeHtml(company)}</div>
@@ -593,6 +618,7 @@ document.getElementById('widgetForm').addEventListener('submit', function (e) {
   const rawPhone = document.getElementById('phoneNumber').value.trim() || '';
   const greeting = document.getElementById('greeting').value.trim() || 'How can we help you?';
   const outerMessage = document.getElementById('outerMessage').value.trim() || 'Need Help? Chat With Us.';
+  const brandColor = document.getElementById('brandColor').value || '#25D366';
 
   const phoneDigits = sanitizePhone(rawPhone);
   if (!phoneDigits) {
@@ -606,35 +632,35 @@ document.getElementById('widgetForm').addEventListener('submit', function (e) {
 
   switch (framework) {
     case 'react':
-      code = buildReactCode(company, phoneDigits, greeting, outerMessage);
+      code = buildReactCode(company, phoneDigits, greeting, outerMessage, brandColor);
       language = 'jsx';
       break;
     case 'vue':
-      code = buildVueCode(company, phoneDigits, greeting, outerMessage);
+      code = buildVueCode(company, phoneDigits, greeting, outerMessage, brandColor);
       language = 'html';
       break;
     case 'svelte':
-      code = buildSvelteCode(company, phoneDigits, greeting, outerMessage);
+      code = buildSvelteCode(company, phoneDigits, greeting, outerMessage, brandColor);
       language = 'html'; // svelte is html-like for highlighting
       break;
     case 'angular':
-      code = buildAngularCode(company, phoneDigits, greeting, outerMessage);
+      code = buildAngularCode(company, phoneDigits, greeting, outerMessage, brandColor);
       language = 'typescript';
       break;
     case 'next.js':
-      code = buildReactCode(company, phoneDigits, greeting, outerMessage);
+      code = buildReactCode(company, phoneDigits, greeting, outerMessage, brandColor);
       language = 'jsx';
       break;
     case 'vite':
-      code = buildReactCode(company, phoneDigits, greeting, outerMessage);
+      code = buildReactCode(company, phoneDigits, greeting, outerMessage, brandColor);
       language = 'jsx';
       break;
     case 'blazor':
-        code = buildBlazorCode(company, phoneDigits, greeting, outerMessage);
+        code = buildBlazorCode(company, phoneDigits, greeting, outerMessage, brandColor);
         language = 'razor';
         break;
     default:
-      code = buildHtmlCode(company, phoneDigits, greeting, outerMessage);
+      code = buildHtmlCode(company, phoneDigits, greeting, outerMessage, brandColor);
       language = 'html';
   }
 
@@ -643,7 +669,7 @@ document.getElementById('widgetForm').addEventListener('submit', function (e) {
   generatedCode.className = `language-${language}`;
 
   // update preview
-  updatePreview(company, phoneDigits, greeting, outerMessage);
+  updatePreview(company, phoneDigits, greeting, outerMessage, brandColor);
 
   // highlight all
   hljs.highlightAll();
@@ -736,7 +762,7 @@ document.getElementById('downloadBtn').addEventListener('click', function () {
 
 
 // initial sample preview
-updatePreview('Business/Brand Name', sanitizePhone('+233123456789'), 'How can we help you?', 'Need Help? Chat With Us.');
+updatePreview('Business/Brand Name', sanitizePhone('+233123456789'), 'How can we help you?', 'Need Help? Chat With Us.', '#25D366');
 document.getElementById('companyName').value = 'Business/Brand Name';
 document.getElementById('phoneNumber').value = '+233 12 345 6789';
 document.getElementById('greeting').value = 'How can we help you?';
