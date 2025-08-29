@@ -275,8 +275,8 @@ function buildVueCode(company, phoneDigits, greeting, outerMessage) {
       </div>
       <div class="whatswidget-conversation-message">{{ finalGreeting }}</div>
       <div class="whatswidget-conversation-cta">
-        <a :href="\`https://web.whatsapp.com/send?phone=${phoneDigits}\`" target="_blank" rel="noopener noreferrer" class="whatswidget-cta whatswidget-cta-desktop">Send message</a>
-        <a :href="\`https://wa.me/${phoneDigits}\`" target="_blank" rel="noopener noreferrer" class="whatswidget-cta whatswidget-cta-mobile">Send message</a>
+        <a :href="`https://web.whatsapp.com/send?phone=\${finalPhoneNo}`" target="_blank" rel="noopener noreferrer" class="whatswidget-cta whatswidget-cta-desktop">Send message</a>
+        <a :href="`https://wa.me/\${finalPhoneNo}`" target="_blank" rel="noopener noreferrer" class="whatswidget-cta whatswidget-cta-mobile">Send message</a>
       </div>
     </div>
     <div v-if="!isOpen" class="whatswidget-conversation-message-outer" @click="isOpen = true">
