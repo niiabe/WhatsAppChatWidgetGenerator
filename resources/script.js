@@ -450,6 +450,75 @@ function buildSvelteCode(company, phoneDigits, greeting, outerMessage) {
 `;
 }
 
+function buildAngularCode(company, phoneDigits, greeting, outerMessage) {
+  const tsCode = `/*
+  Instructions:
+  1. In your Angular project, create a new component: \`ng generate component whatsapp-widget --standalone\`
+  2. Copy the code below and paste it into the corresponding generated files.
+  3. Place the 'resources' folder (from the download .zip) into your project's 'src/assets' folder.
+  4. Ensure the image path in the .html file is correct (it's set to 'assets/resources/wpwhite.png').
+*/
+
+// ======== whatsapp-widget.component.ts ========
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-whatsapp-widget',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './whatsapp-widget.component.html',
+  styleUrls: ['./whatsapp-widget.component.css']
+})
+export class WhatsAppWidgetComponent {
+  @Input() companyName: string = '${escapeHtml(company)}';
+  @Input() phoneNo: string = '${phoneDigits}';
+  @Input() greeting: string = '${escapeHtml(greeting)}';
+  @Input() outerMessage: string = '${escapeHtml(outerMessage)}';
+
+  isOpen = false;
+
+  toggleChat(): void {
+    this.isOpen = !this.isOpen;
+  }
+}`;
+
+  const htmlCode = `<!-- ======== whatsapp-widget.component.html ======== -->
+<div class="whatswidget-widget-wrapper">
+  <!-- Conversation Box -->
+  <div *ngIf="isOpen" class="whatswidget-conversation">
+    <div class="whatswidget-conversation-header">
+      <div class="whatswidget-conversation-title text-white">{{ companyName }}</div>
+    </div>
+    <div class="whatswidget-conversation-message">{{ greeting }}</div>
+    <div class="whatswidget-conversation-cta">
+      <a href="https://web.whatsapp.com/send?phone={{ phoneNo }}" target="_blank" rel="noopener noreferrer" class="whatswidget-cta whatswidget-cta-desktop">Send message</a>
+      <a href="https://wa.me/{{ phoneNo }}" target="_blank" rel="noopener noreferrer" class="whatswidget-cta whatswidget-cta-mobile">Send message</a>
+    </div>
+  </div>
+
+  <!-- Outer Message Bubble -->
+  <div *ngIf="!isOpen" class="whatswidget-conversation-message-outer" (click)="isOpen = true">
+    <span class="whatswidget-text-header-outer">{{ companyName }}</span><br />
+    <div class="whatswidget-text-message-outer">{{ outerMessage }}</div>
+  </div>
+
+  <!-- Main Widget Button -->
+  <div class="whatswidget-button-wrapper" (click)="toggleChat()">
+    <div class="whatswidget-button">
+      <div style="margin:0 auto;width:38.5px;">
+        <img class="whatswidget-icon" alt="WhatsappLogo" src="assets/resources/wpwhite.png">
+      </div>
+    </div>
+  </div>
+</div>`;
+
+  const cssCode = `/* ======== whatsapp-widget.component.css ======== */
+${widgetCss}`;
+
+  return `${tsCode}\n\n${htmlCode}\n\n${cssCode}`;
+}
+
 // small helper to avoid raw HTML injection into generated preview text
 function escapeHtml(str) {
   if (!str) return '';
@@ -548,6 +617,10 @@ document.getElementById('widgetForm').addEventListener('submit', function (e) {
       code = buildSvelteCode(company, phoneDigits, greeting, outerMessage);
       language = 'html'; // svelte is html-like for highlighting
       break;
+    case 'angular':
+      code = buildAngularCode(company, phoneDigits, greeting, outerMessage);
+      language = 'typescript';
+      break;
     case 'next.js':
       code = buildReactCode(company, phoneDigits, greeting, outerMessage);
       language = 'jsx';
@@ -616,6 +689,8 @@ document.getElementById('downloadBtn').addEventListener('click', function () {
     filename = 'WhatsAppWidget.vue';
   } else if (framework === 'svelte') {
     filename = 'WhatsAppWidget.svelte';
+  } else if (framework === 'angular') {
+    filename = 'whatsapp-widget.component.ts';
   } else if (framework === 'blazor') {
     filename = 'WhatsAppWidget.razor';
   }
