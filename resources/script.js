@@ -393,6 +393,63 @@ ${widgetCss}
 `;
 }
 
+function buildSvelteCode(company, phoneDigits, greeting, outerMessage) {
+  return `<!--
+1. Save this code as a .svelte file (e.g., WhatsAppWidget.svelte).
+2. Place the 'resources' folder in your project's 'static' or 'public' directory.
+3. The image path is set to '/resources/wpwhite.png'. Adjust if necessary.
+4. Import and use the component in your Svelte app.
+-->
+
+<script>
+  export let companyName = '${escapeHtml(company)}';
+  export let phoneNo = '${phoneDigits}';
+  export let greeting = '${escapeHtml(greeting)}';
+  export let outerMessage = '${escapeHtml(outerMessage)}';
+
+  let isOpen = false;
+
+  function toggleChat() {
+    isOpen = !isOpen;
+  }
+</script>
+
+<div class="whatswidget-widget-wrapper">
+  {#if isOpen}
+    <div class="whatswidget-conversation">
+      <div class="whatswidget-conversation-header">
+        <div class="whatswidget-conversation-title text-white">{companyName}</div>
+      </div>
+      <div class="whatswidget-conversation-message">{greeting}</div>
+      <div class="whatswidget-conversation-cta">
+        <a href={"https://web.whatsapp.com/send?phone=" + phoneNo} target="_blank" rel="noopener noreferrer" class="whatswidget-cta whatswidget-cta-desktop">Send message</a>
+        <a href={"https://wa.me/" + phoneNo} target="_blank" rel="noopener noreferrer" class="whatswidget-cta whatswidget-cta-mobile">Send message</a>
+      </div>
+    </div>
+  {/if}
+
+  {#if !isOpen}
+    <div class="whatswidget-conversation-message-outer" on:click={() => isOpen = true}>
+      <span class="whatswidget-text-header-outer">{companyName}</span><br />
+      <div class="whatswidget-text-message-outer">{outerMessage}</div>
+    </div>
+  {/if}
+
+  <div class="whatswidget-button-wrapper" on:click={toggleChat}>
+    <div class="whatswidget-button">
+      <div style="margin:0 auto;width:38.5px;">
+        <img class="whatswidget-icon" alt="WhatsappLogo" src="/resources/wpwhite.png">
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  ${widgetCss}
+</style>
+`;
+}
+
 // small helper to avoid raw HTML injection into generated preview text
 function escapeHtml(str) {
   if (!str) return '';
@@ -487,6 +544,10 @@ document.getElementById('widgetForm').addEventListener('submit', function (e) {
       code = buildVueCode(company, phoneDigits, greeting, outerMessage);
       language = 'html';
       break;
+    case 'svelte':
+      code = buildSvelteCode(company, phoneDigits, greeting, outerMessage);
+      language = 'html'; // svelte is html-like for highlighting
+      break;
     case 'next.js':
       code = buildReactCode(company, phoneDigits, greeting, outerMessage);
       language = 'jsx';
@@ -553,6 +614,8 @@ document.getElementById('downloadBtn').addEventListener('click', function () {
     filename = 'WhatsAppWidget.jsx';
   } else if (framework === 'vue') {
     filename = 'WhatsAppWidget.vue';
+  } else if (framework === 'svelte') {
+    filename = 'WhatsAppWidget.svelte';
   } else if (framework === 'blazor') {
     filename = 'WhatsAppWidget.razor';
   }
