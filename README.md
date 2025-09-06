@@ -10,9 +10,9 @@ A simple web tool to generate customizable WhatsApp chat widget code for your we
 
 - **Live Preview:** Instantly see your widget as you customize it.
 - **Customizable:** Set your company/website name, WhatsApp number, greeting, and outer message.
-- **Framework Support:** Generate code for HTML, React, Vue, Next.js, and Vite.
+- **Framework Support:** Generate complete, self-contained code for HTML, React, Vue, Next.js, Vite, and Blazor.
 - **Syntax Highlighting:** Code previews are highlighted for better readability.
-- **Copy or Download:** Easily copy the generated code or download a ready-to-use HTML file.
+- **Copy or Download:** Easily copy the generated code snippet, or download a complete, ready-to-use `.zip` package containing the code, CSS, and required images.
 - **Responsive Design:** Uses Bootstrap 5 for a clean, responsive layout.
 - **No Backend Required:** Everything runs in the browser.
 
@@ -23,15 +23,17 @@ A simple web tool to generate customizable WhatsApp chat widget code for your we
 
 ## Usage
 
-1. Fill in your:
-    - Company/Website Name
-    - WhatsApp Phone Number (with country code)
-    - Greeting Message (inside chat)
-    - Outer Quick Message (bubble text)
-2. Click **"Generate Code"**.
-3. Select your desired framework from the drop-down menu.
-4. Copy the generated code or download the HTML file.
-5. **Embed the code** into your website. For framework-specific components, you will also need to copy the CSS from the `style.css` file.
+1. **Configure the Widget:**
+    - Fill in your Company/Website Name, WhatsApp Phone Number, Greeting Message, and Outer Quick Message.
+2. **Generate Code:**
+    - Click **"Generate Code"** to see the live preview and the generated code.
+3. **Select Your Framework:**
+    - Choose your desired framework (HTML, React, Vue, etc.) from the drop-down menu. The code will update automatically.
+4. **Get the Code:**
+    - **Option 1: Copy Code:** Click **"Copy Code"** to grab the snippet and paste it into your project. Note that for frameworks other than Vue, you will need to manage the CSS and image assets separately.
+    - **Option 2: Download Widget:** Click **"Download Widget"** to get a `.zip` file containing the component code, a `resources` folder with the necessary CSS and images, and clear instructions for use. This is the recommended method for easy integration.
+5. **Embed the Widget:**
+    - Follow the instructions in the generated code or the downloaded package to add the widget to your website.
 
 ## Example
 
