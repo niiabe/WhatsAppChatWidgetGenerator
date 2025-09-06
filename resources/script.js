@@ -609,3 +609,11 @@ document.getElementById('greeting').value = greetingValue;
 document.getElementById('outerMessage').value = outerMessageValue;
 
 updatePreview(companyName, sanitizePhone(phoneNumber), greetingValue, outerMessageValue);
+
+document.getElementById('greeting').addEventListener('change', () => {
+  document.getElementById('widgetForm').dispatchEvent(new Event('submit'));
+});
+
+document.getElementById('outerMessage').addEventListener('change', () => {
+  document.getElementById('widgetForm').dispatchEvent(new Event('submit'));
+});
