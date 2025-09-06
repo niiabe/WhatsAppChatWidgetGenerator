@@ -67,12 +67,20 @@
 
               <div class="mb-3">
                 <label class="form-label">Greeting Message (inside chat)</label>
-                <input class="form-control" id="greeting" placeholder="How can we help you?" value="How can we help you?" required>
+                <select class="form-control" id="greeting" required>
+                  <option value="How can we help you?">How can we help you?</option>
+                  <option value="Hello! How can I assist you today?">Hello! How can I assist you today?</option>
+                  <option value="Have a question? We're here to help.">Have a question? We're here to help.</option>
+                </select>
               </div>
 
               <div class="mb-3">
                 <label class="form-label">Outer quick message</label>
-                <input class="form-control" id="outerMessage" placeholder="Need Help? Chat With Us." value="Need Help? Chat With Us.">
+                <select class="form-control" id="outerMessage">
+                  <option value="Need Help? Chat With Us.">Need Help? Chat With Us.</option>
+                  <option value="Questions? Chat Now!">Questions? Chat Now!</option>
+                  <option value="Live Chat">Live Chat</option>
+                </select>
                 <div class="form-text small-muted">This text appears on the little outer bubble.</div>
               </div>
 

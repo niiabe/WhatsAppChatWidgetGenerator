@@ -598,8 +598,7 @@ document.getElementById('downloadBtn').addEventListener('click', function () {
 
 
 // initial sample preview
-updatePreview('Business/Brand Name', sanitizePhone('+233123456789'), 'How can we help you?', 'Need Help? Chat With Us.');
 document.getElementById('companyName').value = 'Business/Brand Name';
 document.getElementById('phoneNumber').value = '+233 12 345 6789';
-document.getElementById('greeting').value = 'How can we help you?';
-document.getElementById('outerMessage').value = 'Need Help? Chat With Us.';
+// trigger initial preview
+document.getElementById('widgetForm').dispatchEvent(new Event('submit'));
