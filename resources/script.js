@@ -61,8 +61,8 @@ const widgetCss = `
   align-items: center;
 }
 .whatswidget-logo {
-  width: 40px;
-  height: 40px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   margin-right: 10px;
   object-fit: cover;
