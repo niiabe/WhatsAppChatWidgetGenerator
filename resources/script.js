@@ -28,6 +28,8 @@ function sanitizePhone(raw) {
   return digits;
 }
 
+let logoDataUrl = '';
+
 const widgetCss = `
 .whatswidget-widget-wrapper {
   font-family: Arial, Helvetica, sans-serif;
@@ -50,11 +52,20 @@ const widgetCss = `
 }
 .whatswidget-conversation-header {
   background-color: #25D366;
-  padding: 10px 25px;
+  padding: 10px;
   box-shadow: 0px 1px #00000029;
   font-weight: 600;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  display: flex;
+  align-items: center;
+}
+.whatswidget-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
 }
 .whatswidget-conversation-message {
   line-height: 1.2em;
@@ -145,12 +156,14 @@ const widgetCss = `
 }
 `;
 
-function buildHtmlCode(company, phoneDigits, greeting, outerMessage) {
+function buildHtmlCode(company, phoneDigits, greeting, outerMessage, logo) {
+  const logoHtml = logo ? `<img src="${logo}" alt="Logo" class="whatswidget-logo">` : '';
   return `<!-- WhatsApp Widget (generated) -->
 <div id="whatswidget-pre-wrapper">
   <div class="whatswidget-widget-wrapper">
     <div id="whatswidget-conversation" class="whatswidget-conversation" style="display:none;opacity:0;">
       <div class="whatswidget-conversation-header">
+        ${logoHtml}
         <div id="whatswidget-conversation-title" class="whatswidget-conversation-title text-white">${escapeHtml(company)}</div>
       </div>
 
@@ -208,7 +221,8 @@ function buildHtmlCode(company, phoneDigits, greeting, outerMessage) {
 <!-- End WhatsApp Widget -->`;
 }
 
-function buildReactCode(company, phoneDigits, greeting, outerMessage) {
+function buildReactCode(company, phoneDigits, greeting, outerMessage, logo) {
+    const logoHtml = logo ? `<img src={"${logo}"} alt="Logo" className="whatswidget-logo" />` : '';
   return `// 1. Download the widget package.
 // 2. Place the 'resources' folder in your project's public/assets directory.
 // 3. Adjust the image and CSS paths in this component if necessary.
@@ -217,7 +231,7 @@ function buildReactCode(company, phoneDigits, greeting, outerMessage) {
 import React, { useState } from 'react';
 import './resources/whatsapp-widget.css';
 
-const WhatsAppWidget = ({ companyName, phoneNo, greeting, outerMessage }) => {
+const WhatsAppWidget = ({ companyName, phoneNo, greeting, outerMessage, logo }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Use props or default values
@@ -225,12 +239,14 @@ const WhatsAppWidget = ({ companyName, phoneNo, greeting, outerMessage }) => {
   const finalPhoneNo = phoneNo || "${phoneDigits}";
   const finalGreeting = greeting || "${escapeHtml(greeting)}";
   const finalOuterMessage = outerMessage || "${escapeHtml(outerMessage)}";
+  const finalLogo = logo || (logoDataUrl ? "${logoDataUrl}" : null);
 
   return (
     <div className="whatswidget-widget-wrapper">
       {isOpen && (
         <div className="whatswidget-conversation">
           <div className="whatswidget-conversation-header">
+            {finalLogo && <img src={finalLogo} alt="Logo" className="whatswidget-logo" />}
             <div className="whatswidget-conversation-title text-white">{finalCompanyName}</div>
           </div>
           <div className="whatswidget-conversation-message">{finalGreeting}</div>
@@ -266,11 +282,13 @@ ${widgetCss}
 `;
 }
 
-function buildVueCode(company, phoneDigits, greeting, outerMessage) {
+function buildVueCode(company, phoneDigits, greeting, outerMessage, logo) {
+    const logoHtml = logo ? `<img :src="finalLogo" alt="Logo" class="whatswidget-logo" v-if="finalLogo">` : '';
   return `<template>
   <div class="whatswidget-widget-wrapper">
     <div v-if="isOpen" class="whatswidget-conversation">
       <div class="whatswidget-conversation-header">
+        <img :src="finalLogo" alt="Logo" class="whatswidget-logo" v-if="finalLogo">
         <div class="whatswidget-conversation-title text-white">{{ finalCompanyName }}</div>
       </div>
       <div class="whatswidget-conversation-message">{{ finalGreeting }}</div>
@@ -312,6 +330,10 @@ export default {
       type: String,
       default: '${escapeHtml(outerMessage)}',
     },
+    logo: {
+        type: String,
+        default: logoDataUrl ? '${logoDataUrl}' : null
+    }
   },
   data() {
     return {
@@ -320,6 +342,7 @@ export default {
       finalPhoneNo: this.phoneNo,
       finalGreeting: this.greeting,
       finalOuterMessage: this.outerMessage,
+      finalLogo: this.logo,
     };
   },
 };
@@ -331,7 +354,8 @@ ${widgetCss}
 `;
 }
 
-function buildBlazorCode(company, phoneDigits, greeting, outerMessage) {
+function buildBlazorCode(company, phoneDigits, greeting, outerMessage, logo) {
+  const logoHtml = logo ? `<img src="@Logo" alt="Logo" class="whatswidget-logo">` : '';
   return `
 @*
 1. Download the widget package.
@@ -345,6 +369,10 @@ function buildBlazorCode(company, phoneDigits, greeting, outerMessage) {
     {
         <div class="whatswidget-conversation">
             <div class="whatswidget-conversation-header">
+                @if (!string.IsNullOrEmpty(Logo))
+                {
+                    <img src="@Logo" alt="Logo" class="whatswidget-logo">
+                }
                 <div class="whatswidget-conversation-title text-white">@CompanyName</div>
             </div>
             <div class="whatswidget-conversation-message">@Greeting</div>
@@ -384,6 +412,9 @@ function buildBlazorCode(company, phoneDigits, greeting, outerMessage) {
 
     [Parameter]
     public string OuterMessage { get; set; } = "${escapeHtml(outerMessage)}";
+
+    [Parameter]
+    public string Logo { get; set; } = logoDataUrl ? "${logoDataUrl}" : null;
 }
 
 @*
@@ -407,12 +438,14 @@ function escapeHtml(str) {
 }
 
 // update preview (not by injecting the generated <script>, but by building interactive DOM)
-function updatePreview(company, phoneDigits, greeting, outerMessage) {
+function updatePreview(company, phoneDigits, greeting, outerMessage, logo) {
   const root = document.getElementById('previewArea');
+  const logoHtml = logo ? `<img src="${logo}" alt="Logo" class="whatswidget-logo">` : '';
   root.innerHTML = `
     <div class="whatswidget-widget-wrapper" style="margin-bottom: -3rem">
       <div class="whatswidget-conversation" style="display:none;opacity:0;">
         <div class="whatswidget-conversation-header">
+          ${logoHtml}
           <div class="whatswidget-conversation-title text-white">${escapeHtml(company)}</div>
         </div>
         <div class="whatswidget-conversation-message">${escapeHtml(greeting)}</div>
@@ -480,27 +513,27 @@ document.getElementById('widgetForm').addEventListener('submit', function (e) {
 
   switch (framework) {
     case 'react':
-      code = buildReactCode(company, phoneDigits, greeting, outerMessage);
+      code = buildReactCode(company, phoneDigits, greeting, outerMessage, logoDataUrl);
       language = 'jsx';
       break;
     case 'vue':
-      code = buildVueCode(company, phoneDigits, greeting, outerMessage);
+      code = buildVueCode(company, phoneDigits, greeting, outerMessage, logoDataUrl);
       language = 'html';
       break;
     case 'next.js':
-      code = buildReactCode(company, phoneDigits, greeting, outerMessage);
+      code = buildReactCode(company, phoneDigits, greeting, outerMessage, logoDataUrl);
       language = 'jsx';
       break;
     case 'vite':
-      code = buildReactCode(company, phoneDigits, greeting, outerMessage);
+      code = buildReactCode(company, phoneDigits, greeting, outerMessage, logoDataUrl);
       language = 'jsx';
       break;
     case 'blazor':
-        code = buildBlazorCode(company, phoneDigits, greeting, outerMessage);
+        code = buildBlazorCode(company, phoneDigits, greeting, outerMessage, logoDataUrl);
         language = 'razor';
         break;
     default:
-      code = buildHtmlCode(company, phoneDigits, greeting, outerMessage);
+      code = buildHtmlCode(company, phoneDigits, greeting, outerMessage, logoDataUrl);
       language = 'html';
   }
 
@@ -509,7 +542,7 @@ document.getElementById('widgetForm').addEventListener('submit', function (e) {
   generatedCode.className = `language-${language}`;
 
   // update preview
-  updatePreview(company, phoneDigits, greeting, outerMessage);
+  updatePreview(company, phoneDigits, greeting, outerMessage, logoDataUrl);
 
   // highlight all
   hljs.highlightAll();
@@ -608,7 +641,7 @@ document.getElementById('phoneNumber').value = phoneNumber;
 document.getElementById('greeting').value = greetingValue;
 document.getElementById('outerMessage').value = outerMessageValue;
 
-updatePreview(companyName, sanitizePhone(phoneNumber), greetingValue, outerMessageValue);
+updatePreview(companyName, sanitizePhone(phoneNumber), greetingValue, outerMessageValue, logoDataUrl);
 
 document.getElementById('greeting').addEventListener('change', () => {
   document.getElementById('widgetForm').dispatchEvent(new Event('submit'));
@@ -616,4 +649,16 @@ document.getElementById('greeting').addEventListener('change', () => {
 
 document.getElementById('outerMessage').addEventListener('change', () => {
   document.getElementById('widgetForm').dispatchEvent(new Event('submit'));
+});
+
+document.getElementById('logoUpload').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            logoDataUrl = e.target.result;
+            document.getElementById('widgetForm').dispatchEvent(new Event('submit'));
+        };
+        reader.readAsDataURL(file);
+    }
 });
