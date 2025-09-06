@@ -39,7 +39,7 @@ const widgetCss = `
 }
 .whatswidget-conversation {
   background-color: #e4dcd4;
-  background-image: url('resources/wpbg.png');
+  background-image: url('wpbg.png');
   background-repeat: repeat;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 40px;
   width: 250px;
@@ -767,3 +767,4 @@ document.getElementById('companyName').value = 'Business/Brand Name';
 document.getElementById('phoneNumber').value = '+233 12 345 6789';
 document.getElementById('greeting').value = 'How can we help you?';
 document.getElementById('outerMessage').value = 'Need Help? Chat With Us.';
+document.getElementById('widgetForm').dispatchEvent(new Event('submit'));
