@@ -222,7 +222,7 @@ function buildHtmlCode(company, phoneDigits, greeting, outerMessage, logo) {
 }
 
 function buildReactCode(company, phoneDigits, greeting, outerMessage, logo) {
-    const logoHtml = logo ? `<img src={"${logo}"} alt="Logo" className="whatswidget-logo" />` : '';
+  const logoHtml = logo ? `<img src={"${logo}"} alt="Logo" className="whatswidget-logo" />` : '';
   return `// 1. Download the widget package.
 // 2. Place the 'resources' folder in your project's public/assets directory.
 // 3. Adjust the image and CSS paths in this component if necessary.
@@ -283,7 +283,7 @@ ${widgetCss}
 }
 
 function buildVueCode(company, phoneDigits, greeting, outerMessage, logo) {
-    const logoHtml = logo ? `<img :src="finalLogo" alt="Logo" class="whatswidget-logo" v-if="finalLogo">` : '';
+  const logoHtml = logo ? `<img :src="finalLogo" alt="Logo" class="whatswidget-logo" v-if="finalLogo">` : '';
   return `<template>
   <div class="whatswidget-widget-wrapper">
     <div v-if="isOpen" class="whatswidget-conversation">
@@ -434,7 +434,7 @@ function escapeHtml(str) {
     '"': '&quot;',
     "'": '&#039;'
   };
-  return str.replace(/[&<>"']/g, function(m) { return map[m]; });
+  return str.replace(/[&<>"']/g, function (m) { return map[m]; });
 }
 
 // update preview (not by injecting the generated <script>, but by building interactive DOM)
@@ -507,7 +507,10 @@ document.getElementById('widgetForm').addEventListener('submit', function (e) {
     return;
   }
 
-  const framework = document.querySelector('#framework-dropdown').textContent.trim().toLowerCase();
+  // Use data-framework attribute for reliability, fallback to html
+  const frameworkBtn = document.getElementById('framework-dropdown');
+  const framework = (frameworkBtn.dataset.framework || 'html').toLowerCase();
+
   let code = '';
   let language = 'html';
 
@@ -520,7 +523,7 @@ document.getElementById('widgetForm').addEventListener('submit', function (e) {
       code = buildVueCode(company, phoneDigits, greeting, outerMessage, logoDataUrl);
       language = 'html';
       break;
-    case 'next.js':
+    case 'nextjs':
       code = buildReactCode(company, phoneDigits, greeting, outerMessage, logoDataUrl);
       language = 'jsx';
       break;
@@ -529,9 +532,9 @@ document.getElementById('widgetForm').addEventListener('submit', function (e) {
       language = 'jsx';
       break;
     case 'blazor':
-        code = buildBlazorCode(company, phoneDigits, greeting, outerMessage, logoDataUrl);
-        language = 'razor';
-        break;
+      code = buildBlazorCode(company, phoneDigits, greeting, outerMessage, logoDataUrl);
+      language = 'razor';
+      break;
     default:
       code = buildHtmlCode(company, phoneDigits, greeting, outerMessage, logoDataUrl);
       language = 'html';
@@ -552,7 +555,10 @@ document.querySelectorAll('.dropdown-item').forEach(item => {
   item.addEventListener('click', function (e) {
     e.preventDefault();
     const framework = this.dataset.framework;
-    document.getElementById('framework-dropdown').textContent = this.textContent;
+    const btn = document.getElementById('framework-dropdown');
+    btn.textContent = this.textContent;
+    btn.dataset.framework = framework;
+
     document.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('active'));
     this.classList.add('active');
     document.getElementById('widgetForm').dispatchEvent(new Event('submit'));
@@ -651,14 +657,14 @@ document.getElementById('outerMessage').addEventListener('change', () => {
   document.getElementById('widgetForm').dispatchEvent(new Event('submit'));
 });
 
-document.getElementById('logoUpload').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            logoDataUrl = e.target.result;
-            document.getElementById('widgetForm').dispatchEvent(new Event('submit'));
-        };
-        reader.readAsDataURL(file);
-    }
+document.getElementById('logoUpload').addEventListener('change', function (event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      logoDataUrl = e.target.result;
+      document.getElementById('widgetForm').dispatchEvent(new Event('submit'));
+    };
+    reader.readAsDataURL(file);
+  }
 });
