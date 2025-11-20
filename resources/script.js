@@ -32,7 +32,7 @@ let logoDataUrl = '';
 
 const widgetCss = `
 .whatswidget-widget-wrapper {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'DM Serif Display', serif;
   font-size: 16px;
   position: fixed;
   bottom: 20px;
@@ -159,6 +159,7 @@ const widgetCss = `
 function buildHtmlCode(company, phoneDigits, greeting, outerMessage, logo) {
   const logoHtml = logo ? `<img src="${logo}" alt="Logo" class="whatswidget-logo">` : '';
   return `<!-- WhatsApp Widget (generated) -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <div id="whatswidget-pre-wrapper">
   <div class="whatswidget-widget-wrapper">
     <div id="whatswidget-conversation" class="whatswidget-conversation" style="display:none;opacity:0;">
