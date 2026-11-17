@@ -11,6 +11,9 @@ A simple web tool to generate customizable WhatsApp chat widget code for your we
 - **Live Preview:** Instantly see your widget as you customize it.
 - **Customizable:** Set your company/website name, WhatsApp number, and choose from a selection of predefined greeting and outer messages.
 - **Brand Logo:** Upload your own logo to be displayed as a circular profile picture in the chat widget.
+- **Guided Chat:** Turn the widget into a small assistant. Add your own questions and answers (edit, reorder or remove them any time); visitors tap a question and get the answer straight away, with web links made clickable.
+- **Leave a Message:** Optionally let visitors type their name and a message in the chat. It then opens WhatsApp with the message already written, ready to send to you.
+- **Remembers Your Settings:** Your questions, answers and settings are saved in your browser, so you can come back later and update them.
 - **Framework Support:** Generate complete, self-contained code for HTML, React, Vue, Next.js, Vite, and Blazor. Now with improved reliability for all frameworks.
 - **Syntax Highlighting:** Code previews are highlighted for better readability.
 - **Copy or Download:** Easily copy the generated code snippet, or download a complete, ready-to-use `.zip` package containing the code, CSS, and required images.
@@ -26,6 +29,7 @@ A simple web tool to generate customizable WhatsApp chat widget code for your we
 
 1. **Configure the Widget:**
     - Fill in your Company/Website Name, WhatsApp Phone Number, Greeting Message, and Outer Quick Message.
+    - Optional: switch on **Guided chat**, then add questions and answers with **+ Add question**. Use the arrows to reorder and the × to remove one. Tick **Let visitors leave their name and a message** to collect a message that opens in WhatsApp.
 2. **Generate Code:**
     - Click **"Generate Code"** to see the live preview and the generated code.
 3. **Select Your Framework:**
@@ -45,6 +49,8 @@ A simple web tool to generate customizable WhatsApp chat widget code for your we
 - The phone number is sanitized to digits only for WhatsApp URLs.
 - The widget works on both desktop and mobile (uses appropriate WhatsApp links).
 - No backend required; everything runs in the browser.
+- With guided chat on, the generated code contains your questions and answers in a config near the top (`config` / `CHAT_CONFIG` / `ConfigJson`), so you can also edit them there directly.
+- For Blazor, add `resources/whatsapp-chatbot.js` and `resources/whatsapp-widget.css` from the download to your host page (the component's comment shows the two lines).
 
 ## SEO & Social
 

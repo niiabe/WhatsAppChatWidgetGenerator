@@ -90,6 +90,28 @@
                 <div class="form-text small-muted">This text appears on the little outer bubble.</div>
               </div>
 
+              <div class="mb-3 border-top pt-3">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="botEnabled">
+                  <label class="form-check-label fw-semibold" for="botEnabled">Guided chat: answer common questions</label>
+                </div>
+                <div class="form-text small-muted">Visitors tap a question and get your answer straight away, then can carry on in WhatsApp. The greeting above is the first message.</div>
+              </div>
+
+              <div id="botSettings" class="mb-3" hidden>
+                <label class="form-label">Questions and answers</label>
+                <div id="faqList"></div>
+                <button type="button" class="btn btn-outline-success btn-sm" id="addFaq">+ Add question</button>
+                <div class="form-text small-muted">Web links in answers become clickable. Leave a question empty to hide it.</div>
+
+                <div class="form-check mt-3">
+                  <input class="form-check-input" type="checkbox" id="botCollect">
+                  <label class="form-check-label" for="botCollect">Let visitors leave their name and a message</label>
+                </div>
+                <div class="form-text small-muted">The chat asks for both, then opens WhatsApp with the message already typed, ready to send to you.</div>
+                <div class="form-text small-muted">Your settings are remembered in this browser, so you can come back and update them.</div>
+              </div>
+
               <div class="d-grid gap-2">
                 <button class="btn btn-success" id="generateBtn" type="submit">Generate Code</button>
               </div>

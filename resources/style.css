@@ -68,6 +68,11 @@ pre[id^="generated-"] {
   background: #fff;
 }
 
+/* Guided chat is taller than the simple widget */
+.preview-area.preview-bot {
+  min-height: 560px;
+}
+
 .small-muted {
   font-size: .85rem;
   color: #6c757d;
